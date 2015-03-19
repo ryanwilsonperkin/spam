@@ -23,16 +23,16 @@ class Model(object):
     def train_spam(self, text):
         self.__n_spam += 1
         for word in self.get_words(text):
-            self.__spam[word] += 1
+            self.__spam[word.lower()] += 1
 
     def train_ham(self, text):
         self.__n_ham += 1
         for word in self.get_words(text):
-            self.__ham[word] += 1
+            self.__ham[word.lower()] += 1
 
     def classify_word(self, word):
-        spam_count = self.__spam[word]
-        ham_count = 2 * self.__ham[word]
+        spam_count = self.__spam[word.lower()]
+        ham_count = 2 * self.__ham[word.lower()]
 
         if spam_count + ham_count < 5:
             return 0.5
