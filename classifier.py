@@ -1,9 +1,12 @@
 from __future__ import division
+import re
 from collections import defaultdict
 
 class Model(object):
     """A model trained on spam and ham, used for classifying other text."""
 
+    delimiters = [' ', '\t', '\n', '"', '.', ',', ';', ':', '/', '?', '!', '&',
+                  '[', ']', '{', '}', '(', ')', '<', '>']
     min_spamicity = 0.01
     max_spamicity = 0.99
 
@@ -14,7 +17,8 @@ class Model(object):
         self.__n_ham = 0
 
     def get_words(self, text):
-        return text.split()
+        pattern = '|'.join(map(re.escape, self.delimiters))
+        return re.split(pattern, text)
 
     def train_spam(self, text):
         self.__n_spam += 1
