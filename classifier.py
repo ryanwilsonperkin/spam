@@ -1,7 +1,11 @@
+from __future__ import division
 from collections import defaultdict
 
 class Model(object):
     """A model trained on spam and ham, used for classifying other text."""
+
+    min_spamicity = 0.01
+    max_spamicity = 0.99
 
     def __init__(self):
         self.__spam = defaultdict(int)
@@ -21,3 +25,15 @@ class Model(object):
         self.__n_ham += 1
         for word in self.get_words(text):
             self.__ham[word] += 1
+
+    def classify_word(self, word):
+        spam_count = self.__spam[word]
+        ham_count = 2 * self.__ham[word]
+
+        if spam_count + ham_count < 5:
+            return 0.5
+
+        ham_frequency = min(1, ham_count / self.__n_ham)
+        spam_frequency = min(1, spam_count / self.__n_spam)
+        spamicity = spam_frequency / (ham_frequency + spam_frequency)
+        return max(self.min_spamicity, min(self.max_spamicity, spamicity))
