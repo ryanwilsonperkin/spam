@@ -37,7 +37,7 @@ class Model(object):
         if spam_count + ham_count < 5:
             return 0.5
 
-        ham_frequency = min(1, ham_count / self.__n_ham)
-        spam_frequency = min(1, spam_count / self.__n_spam)
+        ham_frequency = min(self.max_spamicity, ham_count / self.__n_ham)
+        spam_frequency = min(self.max_spamicity, spam_count / self.__n_spam)
         spamicity = spam_frequency / (ham_frequency + spam_frequency)
         return max(self.min_spamicity, min(self.max_spamicity, spamicity))
