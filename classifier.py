@@ -54,8 +54,8 @@ class Model(object):
 
         spamicities = map(self.classify_word, self.get_words(text))
         hamicities = map(lambda x: 1-x, spamicities)
-        spam_frequency = exp(sum(log(s) for s in spamicities))
-        ham_frequency = exp(sum(log(s) for s in hamicities))
+        spam_frequency = max(self.min_spamicity, exp(sum(log(s) for s in spamicities)))
+        ham_frequency = max(self.min_spamicity, exp(sum(log(s) for s in hamicities)))
         spamicity = spam_frequency / (ham_frequency + spam_frequency)
         return max(self.min_spamicity, min(self.max_spamicity, spamicity))
 
