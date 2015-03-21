@@ -11,11 +11,13 @@ class Model(object):
     delimiters = [' ', '\t', '\n', '"', '.', ',', ';', ':', '/', '?', '!', '&',
                   '[', ']', '{', '}', '(', ')', '<', '>']
 
-    def __init__(self, epsilon=0.01):
+    def __init__(self, epsilon=0.01, spam_bonus=1, ham_bonus=2):
         self.__spam = defaultdict(int)
         self.__ham = defaultdict(int)
         self.__n_spam = 0
         self.__n_ham = 0
+        self.spam_bonus = spam_bonus
+        self.ham_bonus = ham_bonus
         self.min_spamicity = epsilon
         self.max_spamicity = 1 - epsilon
 
@@ -37,8 +39,8 @@ class Model(object):
         if self.__n_ham == 0 or self.__n_spam == 0:
             raise NotTrained()
 
-        spam_count = self.__spam[word.lower()]
-        ham_count = 2 * self.__ham[word.lower()]
+        spam_count = self.spam_bonus * self.__spam[word.lower()]
+        ham_count = self.ham_bonus * self.__ham[word.lower()]
 
         if spam_count + ham_count < 5:
             return 0.5
