@@ -11,7 +11,7 @@ class Model(object):
     delimiters = [' ', '\t', '\n', '"', '.', ',', ';', ':', '/', '?', '!', '&',
                   '[', ']', '{', '}', '(', ')', '<', '>']
 
-    def __init__(self, epsilon=0.01, spam_bonus=1, ham_bonus=2):
+    def __init__(self, epsilon=1e-16, spam_bonus=1, ham_bonus=2):
         self.__spam = defaultdict(int)
         self.__ham = defaultdict(int)
         self.__n_spam = 0
