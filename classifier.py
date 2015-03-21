@@ -50,15 +50,15 @@ class Model(object):
         spamicity = spam_frequency / (ham_frequency + spam_frequency)
         return max(self.min_spamicity, min(self.max_spamicity, spamicity))
 
-    def most_interesting(self, spamicities, n=15):
-        return sorted(spamicities, key=lambda x: abs(x-0.5), reverse=True)[:n]
-
-    def classify_text(self, text):
+    def classify_text(self, text, n_samples=15):
         if self.__n_ham == 0 or self.__n_spam == 0:
             raise NotTrained()
 
-        spamicities = map(self.classify_word, self.get_words(text))
-        spamicities = self.most_interesting(spamicities)
+        spamicities = sorted(
+            map(self.classify_word, self.get_words(text)),
+            key=lambda x: abs(x-0.5),
+            reverse=True
+        )[:n_samples]
         hamicities = map(lambda x: 1-x, spamicities)
         spam_frequency = exp(sum(log(s) for s in spamicities)) or self.min_spamicity
         ham_frequency = exp(sum(log(s) for s in hamicities)) or self.min_spamicity
