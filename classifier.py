@@ -10,15 +10,14 @@ class Model(object):
 
     delimiters = [' ', '\t', '\n', '"', '.', ',', ';', ':', '/', '?', '!', '&',
                   '[', ']', '{', '}', '(', ')', '<', '>']
-    epsilon = 0.01
-    min_spamicity = epsilon
-    max_spamicity = 1 - epsilon
 
-    def __init__(self):
+    def __init__(self, epsilon=0.01):
         self.__spam = defaultdict(int)
         self.__ham = defaultdict(int)
         self.__n_spam = 0
         self.__n_ham = 0
+        self.min_spamicity = epsilon
+        self.max_spamicity = 1 - epsilon
 
     def get_words(self, text):
         pattern = '|'.join(map(re.escape, self.delimiters))
