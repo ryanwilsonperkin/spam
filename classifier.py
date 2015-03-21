@@ -10,8 +10,9 @@ class Model(object):
 
     delimiters = [' ', '\t', '\n', '"', '.', ',', ';', ':', '/', '?', '!', '&',
                   '[', ']', '{', '}', '(', ')', '<', '>']
-    min_spamicity = 0.01
-    max_spamicity = 0.99
+    epsilon = 0.01
+    min_spamicity = epsilon
+    max_spamicity = 1 - epsilon
 
     def __init__(self):
         self.__spam = defaultdict(int)
