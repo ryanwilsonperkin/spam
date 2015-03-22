@@ -76,3 +76,8 @@ class Model(object):
         ham_frequency = exp(sum(log(s) for s in hamicities)) or self.min_spamicity
         spamicity = spam_frequency / (ham_frequency + spam_frequency)
         return max(self.min_spamicity, min(self.max_spamicity, spamicity))
+
+    def is_spam(self, text, threshold=0.9, n_samples=15):
+        """Returns true if text is classified above the threshold."""
+        return self.classify_text(text, n_samples) >= threshold
+
