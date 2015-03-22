@@ -55,7 +55,7 @@ class Model(object):
         spamicity = spam_frequency / (ham_frequency + spam_frequency)
         return max(self.min_spamicity, min(self.max_spamicity, spamicity))
 
-    def classify_text(self, text, n_samples=15):
+    def classify_text(self, text, n_samples=20):
         """Compute the probability that a message is spam."""
         if self.__n_ham == 0 or self.__n_spam == 0:
             raise NotTrained()
@@ -77,7 +77,7 @@ class Model(object):
         spamicity = spam_frequency / (ham_frequency + spam_frequency)
         return max(self.min_spamicity, min(self.max_spamicity, spamicity))
 
-    def is_spam(self, text, threshold=0.9, n_samples=15):
+    def is_spam(self, text, threshold=0.9, n_samples=20):
         """Returns true if text is classified above the threshold."""
         return self.classify_text(text, n_samples) >= threshold
 
